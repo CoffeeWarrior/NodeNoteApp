@@ -1,5 +1,3 @@
-console.log("Starting App.js");
-
 const fs = require("fs");
 const  _ = require("lodash");
 const yargs = require("yargs");
@@ -7,12 +5,33 @@ const yargs = require("yargs");
 
 const notes = require("./notes");
 
-const argv = yargs.argv;
+const title = {
+    describe: "Title of note",
+    demand: true,
+    alias: "t"
+};
+const body = {
+    describe: "Body of the note",
+    demand: true,
+    alias: "b"
+}
+
+const argv = yargs
+    .command("add", "Add a new note", {
+        title,
+        body
+    })
+    .command("remove", "remove an existing note", {
+        title
+    }).command("list", "list all notes")
+    .command("read", "read a specific note", {
+        title
+    })
+    .help()
+    .argv;
 
 
 var command = argv._[0];
-console.log("Command: ", command);
-console.log("Yargs:", argv)
 
 
 if( command === "add"){
@@ -26,7 +45,9 @@ if( command === "add"){
 
 } else if (command === "list"){
     const noteArr = notes.getAll();
-    noteArr.filter((note) => {
+    const plural = noteArr.length > 1? "s":"";
+    console.log(`Printing ${noteArr.length} note${plural}`)
+    noteArr.forEach((note) => {
         notes.logNote(note);
     });
 

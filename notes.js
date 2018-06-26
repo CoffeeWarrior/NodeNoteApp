@@ -1,5 +1,3 @@
-console.log("Starting Notes.js");
-
 const fs = require("fs");
 
 //utility functions
@@ -24,8 +22,6 @@ const addNote = (title, body) => {
         title,
         body
     };
-    
-
     var duplicateNotes = notes.filter((note) => {
         return note.title === title;
     })
